@@ -1,7 +1,6 @@
 package logger
 
 import (
-	"gin-template/vars"
 	nested "github.com/antonfisher/nested-logrus-formatter"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/sirupsen/logrus"
@@ -13,6 +12,11 @@ import (
 	"strconv"
 	"strings"
 	"time"
+)
+
+var (
+	project    = ""
+	projectDir = ""
 )
 
 func InitLogger(basePath string, level logrus.Level) {
@@ -68,10 +72,10 @@ func CustomCallerFormatter(frame *runtime.Frame) string {
 	}
 
 	trimProject := func(file string) string {
-		if !strings.HasPrefix(file, vars.Project+"/") {
+		if !strings.HasPrefix(file, project+"/") {
 			return file
 		}
-		return file[len(vars.Project)+1:]
+		return file[len(project)+1:]
 	}
 
 	// 尝试获取上层栈
@@ -99,8 +103,8 @@ func CustomCallerFormatter(frame *runtime.Frame) string {
 	}
 
 	file := frame.File
-	if strings.HasPrefix(file, vars.ProjectDir+"/") {
-		file = file[len(vars.ProjectDir)+1:]
+	if strings.HasPrefix(file, projectDir+"/") {
+		file = file[len(projectDir)+1:]
 	}
 
 	return " <" + trimProject(root) + "> " + file + ":" + strconv.Itoa(frame.Line) + " |"
