@@ -4,7 +4,6 @@ import (
 	"gin-template/internal/common"
 	"gin-template/internal/gin.router"
 	"gin-template/logger"
-	"gin-template/vars"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -13,12 +12,13 @@ var (
 	port     int
 	logLevel = "info"
 	logPath  = "log"
+	version  = ""
 
 	cmd = &cobra.Command{
 		Short:   "GIN 模版",
 		Long:    "项目地址：https://github.com/xxx/gin-template",
-		Use:     vars.Project,
-		Version: vars.Version,
+		Use:     "gin-template",
+		Version: version,
 		Run: func(cmd *cobra.Command, args []string) {
 			common.InitCommon()
 			logger.InitLogger(logPath, LogLevel())

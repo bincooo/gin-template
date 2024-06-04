@@ -2,6 +2,7 @@ package config
 
 import (
 	"bytes"
+	"gin-template/internal/common"
 	"github.com/spf13/viper"
 	"os"
 )
@@ -25,10 +26,12 @@ func LoadConfig() (*viper.Viper, error) {
 	return vip, nil
 }
 
-func InitConfig() {
-	config, err := LoadConfig()
-	if err != nil {
-		panic(err)
-	}
-	Config = config
+func init() {
+	common.AddInitialized(func() {
+		config, err := LoadConfig()
+		if err != nil {
+			panic(err)
+		}
+		Config = config
+	})
 }
